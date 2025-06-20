@@ -1,34 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: simple-node-app
+  name: my-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: simple-node-app
+      app: my-app
   template:
     metadata:
       labels:
-        app: simple-node-app
+        app: my-app
     spec:
       containers:
-      - name: node-app
+      - name: my-app-container
         image: node:14
-        command: ["node", "-e", "require('http').createServer((req,res)=>res.end('Hello from Node.js!')).listen(3000)"]
+        command: ["node", "-e", "require('http').createServer((req,res)=>res.end('Hello from my-app!')).listen(3000)"]
         ports:
         - containerPort: 3000
----
-# service.yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: simple-node-app-service
-spec:
-  selector:
-    app: simple-node-app
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 3000
-  type: LoadBalancer
